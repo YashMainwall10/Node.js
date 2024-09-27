@@ -94,7 +94,7 @@ PATCH  -> To partialy update a record
 DELETE -> To remove a record from server 
 
 
-<------ URL PARSING AND ------>
+<------ URL PARSING ------>
 
 https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/FMfcgzQXJQNsdXKJHdlFfzkMMPcQGDnD
 
