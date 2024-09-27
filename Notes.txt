@@ -1,0 +1,108 @@
+NODE JS -> for Backend 
+
+Node JS is basically a runtime environment for JavaScript 
+Traditionally JS can only be executed on browser but now that v8 js engine is taken out using c++ and embedded 
+in such a way we can run js in local machines as well that embedded thing is called Node JS 
+
+<------  Architecture of Node js ------>
+
+Event Queue -> A queue that recieves request from client continously and process them one by one in queue order.
+
+Event Loop -> A loop continously looking upon event queue and process each request from the queue. 
+
+For each request there are two tyoes of operation -> 
+i.  Blocking Code       (Synchronous Code)  -> Complex operations 
+ii. Non Blocking Code   (Asynchronous Code) -> Simple operations
+
+If the request is a Non Bloacking request Node.js executes it immeditaley completes it. 
+
+If the request is a Blocking code the event loop sends the request to pool thread and checks if there is any
+available thread (no. of threads depends on the no. of Core IN CPU) to execute the code . If there is no Thread 
+in Thread pool the code is blocked and event loop is also haulted untill a thread is available in thread pool 
+for exectuing the code.   
+
+<------ ------>
+
+Whenever buidling any backend project first initialise the 'init' file which will create a package.json file 
+which will act as a meta data and contains info about included libararies and other project details.
+
+<------ ------>
+
+Modules -> When writing code in Backend it is good to divide the functionalities in modules and file
+just so that not one file handles all the work load. 
+
+once written a code in a file and module we need to export those functionalities 
+
+file 1 ->
+
+function add(a , b){
+    return a+b ;
+}
+
+module.exports = {                           // create a export object and exports these functionalities
+    add : addFunction 
+}
+
+file 2 -> 
+const add = require('./file1name.js')        //import file  './' means in same directory 
+
+
+const http = require('http')                 //to import inbuild libararies and functionalities
+
+
+
+<------ CREATING A SERVER USING HTTP ------>
+
+const http = require('http') ;
+const PORT = 3000 ;
+const server = http.createServer((req , res)=>{              
+    res.end('Hello from server Side') ;
+})
+
+server.listen(3000 , ()=>{
+    console.log('Server started ....') 
+}) ;
+
+// a callback function is used to handle request and  response .
+// the server has to be on port number listening to requests continously .
+
+
+<------ FILE SYSYTEM LIBRARY ------>
+
+It is used for file handling 
+
+const fs = require('fs') ;
+
+fs.writeFileSync( FILEPATH  , ITEM TO BE WRITTEN ) ; //Synchronous call i.e. Blocking code
+
+fs.writeFile( FILEPATH  , ITEM TO BE WRITTEN , (err , succ) =>{  // Asynchronous call i.e. Non Blocking Code
+    if(succ){
+        console.log('Task completed') ;
+    }
+    else if(err){
+        console.log('Error occured') ;
+    }
+}) 
+
+
+<------ HTTP METHODS ------>
+
+GET    -> To get (retrieve data from server) 
+POST   -> To initialise a new instance of Data on server or DataBase (when first time put in DB) 
+PUT    -> To update an existing Data refrence 
+PATCH  -> To partialy update a record 
+DELETE -> To remove a record from server 
+
+
+<------ URL PARSING AND ------>
+
+https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/FMfcgzQXJQNsdXKJHdlFfzkMMPcQGDnD
+
+after ? there are parameter for url like queries.
+her -> ?tab=rm&ogbl#inbox
+
+Now we can process a url with URL external library but to check and code for every PATH and different 
+HTTP METHODS for each path is quite hard and time taking to overcome that we have EXPRESS.
+
+<------ EXPRESS ------>
+
