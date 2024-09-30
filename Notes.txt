@@ -93,6 +93,8 @@ PUT    -> To update an existing Data refrence
 PATCH  -> To partialy update a record 
 DELETE -> To remove a record from server 
 
+by default the browser do a get request everytime .
+
 
 <------ URL PARSING ------>
 
@@ -105,4 +107,74 @@ Now we can process a url with URL external library but to check and code for eve
 HTTP METHODS for each path is quite hard and time taking to overcome that we have EXPRESS.
 
 <------ EXPRESS ------>
+
+with express library we effectively handle all the paths in url and corresponding http requests efficiently 
+first install express in packag.json 
+
+
+const express = require('express') ; // import it
+ 
+const app = express() ;              // creater an app of express which will handle all the complications.
+const port = 12934 ; 
+
+app.get('/' , (req , res)=>{              // '/' defines the home page and a call back functions to handle response and request
+    res.end('Hello From ServerSide') ;
+});
+                                           
+app.get('/profile' , (req, res)=>{         // '/profile' path 
+    res.end(`hello my friend ${req.query.name}`) ;
+})
+
+app.listen(port , ()=>{
+    console.log('Server started perfectly') ;
+})
+
+
+--> to handle multiple request on a specific path we can use 
+
+app.route('/user').get((req , res)=>{      // with route function we can handle multiple request done on a same route.
+    res.end('a get request') ;
+    return ;
+}).post((req , res)=>{
+    res.end('a post request') ;
+}).patch((req , res)=>{
+    res.end('a patch request') ;
+    return ;
+}).put((req , res)=>{
+    res.end('a put request') ;
+    return  ;
+}).delete((req , res)=>{
+    res.end('a delete request') ;
+    return ;
+}) ;
+
+
+<------ MIDDLEWARE IN EXPRESS ------>
+
+1.Middlerware are special functions which will act as a mediators when a request is raised and are the first ones
+  to process req and res.
+2.Middlerwares can update and modify the req object programmitically .
+3.Middlerwares can also stop the req and res cycle to directly send response to the client from the middleware.
+4.Since there can be multiple middleware function we can call the next middlerware function as well. The next middlerware
+  function will be called identified and called by the expressed itself.\
+
+
+
+app.use(express.urlencoded({extended : false})) ; // Whenever we want to access req data from the client we use this middlerware
+                                                
+the urlencoded method add all the key value pairs from the form data to the req object .
+
+app.use((req, res, next) => {
+  console.log('Time:', Date.now())
+  next()       // calling the next middlerware
+})
+
+app.use('/user/:id', (req, res, next) => {             // a middlerware on a specific path.
+  console.log('Request URL:', req.originalUrl)
+  next()
+}, (req, res, next) => {
+  console.log('Request Type:', req.method)
+  next()
+})
+
 
